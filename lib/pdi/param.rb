@@ -10,6 +10,7 @@
 require_relative 'arg'
 
 module PDI
+  # This class sub-classes Arg and knows how to form param key-value pair arguments.
   class Param < Arg
     EQUALS = '='
 

@@ -12,6 +12,7 @@ require_relative 'pan/transformation'
 require_relative 'pan/version_parser'
 
 module PDI
+  # This class is the main wrapper for PDI's pan script.
   class Pan
     VersionResult   = Struct.new(:executor, :value)
     TransformResult = Struct.new(:executor)

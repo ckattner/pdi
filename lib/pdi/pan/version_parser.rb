@@ -9,6 +9,7 @@
 
 module PDI
   class Pan
+    # This class knows how to parse the output of a Pan#version call.
     class VersionParser
       NEW_LINE = "\n"
 

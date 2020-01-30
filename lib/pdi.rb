@@ -11,5 +11,5 @@ require 'acts_as_hashable'
 require 'open3'
 
 require_relative 'pdi/executor'
-require_relative 'pdi/param'
 require_relative 'pdi/pan'
+require_relative 'pdi/param'

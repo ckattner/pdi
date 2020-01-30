@@ -8,6 +8,7 @@
 #
 
 module PDI
+  # This class can form Pentaho-specific command-line arguments.
   class Arg
     COLON         = ':'
     DOUBLE_QUOTE  = '"'

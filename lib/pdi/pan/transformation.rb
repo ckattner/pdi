@@ -9,6 +9,7 @@
 
 module PDI
   class Pan
+    # This class serves as the input for executing a transformation through Pan.
     class Transformation
       acts_as_hashable
 
