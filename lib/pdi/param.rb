@@ -7,6 +7,18 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+require_relative 'arg'
+
 module PDI
-  VERSION = '1.0.0-alpha'
+  class Param < Arg
+    EQUALS = '='
+
+    attr_reader :key, :value
+
+    def initialize(key, value = '')
+      super(Key::PARAM, "#{key}#{EQUALS}#{value}")
+
+      freeze
+    end
+  end
 end

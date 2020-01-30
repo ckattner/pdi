@@ -8,5 +8,17 @@
 #
 
 module PDI
-  VERSION = '1.0.0-alpha'
+  class Pan
+    class VersionParser
+      NEW_LINE = "\n"
+
+      def parse(string)
+        string.to_s
+              .chomp
+              .split(NEW_LINE)
+              .last
+              .to_s
+      end
+    end
+  end
 end
