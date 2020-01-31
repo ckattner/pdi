@@ -9,7 +9,7 @@
 
 require 'spec_helper'
 
-describe PDI::Spoon::Transformation do
+describe PDI::Spoon::Options do
   describe '#to_args' do
     let(:params) do
       {
@@ -32,7 +32,7 @@ describe PDI::Spoon::Transformation do
     end
 
     it 'wraps any args with spaces inside double quotes' do
-      args             = subject.to_args
+      args             = subject.transformation_args
       args_with_spaces = args.select { |a| a.to_s.include?(' ') }
 
       raise ArgumentError, 'no examples to assert!' if args_with_spaces.empty?
@@ -56,7 +56,7 @@ describe PDI::Spoon::Transformation do
       ]
 
       expected_set = Set[*expected]
-      actual_set   = Set[*subject.to_args.map(&:to_s)]
+      actual_set   = Set[*subject.transformation_args.map(&:to_s)]
 
       expect(actual_set).to eq(expected_set)
     end

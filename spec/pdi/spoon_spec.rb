@@ -13,7 +13,7 @@ describe PDI::Spoon do
   let(:mocks_dir) { %w[spec mocks spoon] }
   let(:dir)       { File.join(*mocks_dir) }
 
-  let(:transformation) do
+  let(:options) do
     {
       repository: 'somewhere',
       name: 'something'
@@ -31,7 +31,7 @@ describe PDI::Spoon do
           pan_script: script
         )
 
-        result = pan.run_transformation(transformation)
+        result = pan.run_transformation(options)
 
         expect(result.execution.out_and_err).to eq("output to stdout\noutput to sterr\n")
         expect(result.value).to                 eq(0)
@@ -52,7 +52,45 @@ describe PDI::Spoon do
 
           expected = described_class::PanError
 
-          expect { pan.run_transformation(transformation) }.to raise_error(expected)
+          expect { pan.run_transformation(options) }.to raise_error(expected)
+        end
+      end
+    end
+  end
+
+  describe '#run_job' do
+    context 'when code is 0' do
+      it 'returns correct stdout, stderr and code' do
+        script = 'return_0.sh'
+
+        pan = described_class.new(
+          dir: dir,
+          kitchen_script: script,
+          pan_script: script
+        )
+
+        result = pan.run_job(options)
+
+        expect(result.execution.out_and_err).to eq("output to stdout\noutput to sterr\n")
+        expect(result.value).to                 eq(0)
+        expect(result.execution.code).to        eq(0)
+      end
+    end
+
+    [1, 2, 7, 8, 9].each do |code|
+      context "when code is #{code}" do
+        specify 'returns correct stdout, stderr and code' do
+          script = "return_#{code}.sh"
+
+          pan = described_class.new(
+            dir: dir,
+            kitchen_script: script,
+            pan_script: script
+          )
+
+          expected = described_class::KitchenError
+
+          expect { pan.run_job(options) }.to raise_error(expected)
         end
       end
     end

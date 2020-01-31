@@ -9,14 +9,13 @@
 
 module PDI
   class Spoon
-    # This class subclasses Ruby's StandardError and provides a mapping to custom Pan
+    # This class subclasses Ruby's StandardError and provides a mapping to custom Kitchen
     # specific error codes to messages.
-    class PanError < StandardError
+    class KitchenError < StandardError
       MESSAGES = {
         '1' => 'Errors occurred during processing',
-        '2' => 'An unexpected error occurred during loading / running of the transformation',
-        '3' => 'Unable to prepare and initialize this transformation',
-        '7' => "The transformation couldn't be loaded from XML or the Repository",
+        '2' => 'An unexpected error occurred during loading or running of the job',
+        '7' => "The job couldn't be loaded from XML or the Repository",
         '8' => 'Error loading steps or plugins (error in loading one of the plugins mostly)',
         '9' => 'Command line usage printing'
       }.freeze

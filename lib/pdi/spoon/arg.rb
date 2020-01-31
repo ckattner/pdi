@@ -18,6 +18,7 @@ module PDI
       SPACE         = ' '
 
       module Key
+        JOB     = :job
         LEVEL   = :level
         PARAM   = :param
         REP     = :rep

@@ -7,11 +7,12 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-require_relative 'spoon/parser'
-require_relative 'spoon/result'
+require_relative 'spoon/kitchen_error'
+require_relative 'spoon/options'
 require_relative 'spoon/pan_error'
 require_relative 'spoon/param'
-require_relative 'spoon/transformation'
+require_relative 'spoon/parser'
+require_relative 'spoon/result'
 
 module PDI
   # This class is the main wrapper for PDI's pan and kitchen scripts.
@@ -51,16 +52,30 @@ module PDI
       Result.new(result, version_line)
     end
 
-    def run_transformation(transformation)
-      transformation = Transformation.make(transformation)
+    def run_transformation(options)
+      options = Options.make(options)
 
       args = [
         pan_path
-      ] + transformation.to_args
+      ] + options.transformation_args
 
       result = executor.run(args)
 
       raise(PanError, result.code) if result.code != 0
+
+      Result.new(result, result.code)
+    end
+
+    def run_job(options)
+      options = Options.make(options)
+
+      args = [
+        pan_path
+      ] + options.job_args
+
+      result = executor.run(args)
+
+      raise(KitchenError, result.code) if result.code != 0
 
       Result.new(result, result.code)
     end

@@ -11,8 +11,8 @@ require_relative 'level'
 
 module PDI
   class Spoon
-    # This class serves as the input for executing a transformation through Pan.
-    class Transformation
+    # This class serves as the input for executing a transformation or job through Pan or Kitchen.
+    class Options
       acts_as_hashable
 
       attr_reader :level,
@@ -37,16 +37,24 @@ module PDI
         freeze
       end
 
-      def to_args
-        base_args + param_args
+      def transformation_args
+        to_args(Arg::Key::TRANS)
+      end
+
+      def job_args
+        to_args(Arg::Key::JOB)
       end
 
       private
 
-      def base_args
+      def to_args(key)
+        base_args(key) + param_args
+      end
+
+      def base_args(key)
         [
           Arg.new(Arg::Key::REP, repository),
-          Arg.new(Arg::Key::TRANS, name),
+          Arg.new(key, name),
           Arg.new(Arg::Key::LEVEL, level)
         ]
       end
