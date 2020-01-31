@@ -33,21 +33,21 @@ describe PDI::Arg do
   describe '#to_s' do
     it 'works without a value' do
       subject  = described_class.new(key)
-      expected = "/#{key}"
+      expected = "-#{key}"
 
       expect(subject.to_s).to eq(expected)
     end
 
     it 'works with a value (with no space)' do
       subject  = described_class.new(key, value)
-      expected = "/#{key}:#{value}"
+      expected = "-#{key}:#{value}"
 
       expect(subject.to_s).to eq(expected)
     end
 
     it 'works with a value (with a space)' do
       subject  = described_class.new(key, value_with_space)
-      expected = "\"/#{key}:#{value_with_space}\""
+      expected = "\"-#{key}:#{value_with_space}\""
 
       expect(subject.to_s).to eq(expected)
     end

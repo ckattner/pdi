@@ -47,12 +47,12 @@ describe PDI::Pan::Transformation do
 
     it 'includes each option' do
       expected = [
-        '"/rep:some repo"',
-        '/trans:some_transformation',
-        '/level:Basic',
-        '/param:key1=value1',
-        '/param:key2=value2',
-        '"/param:key3=value with spaces"'
+        '"-rep:some repo"',
+        '-trans:some_transformation',
+        '-level:Basic',
+        '-param:key1=value1',
+        '-param:key2=value2',
+        '"-param:key3=value with spaces"'
       ]
 
       expected_set = Set[*expected]

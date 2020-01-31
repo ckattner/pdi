@@ -17,21 +17,21 @@ describe PDI::Param do
   describe '#to_s' do
     it 'works without a value' do
       subject  = described_class.new(key)
-      expected = "/param:#{key}="
+      expected = "-param:#{key}="
 
       expect(subject.to_s).to eq(expected)
     end
 
     it 'works with a value (with no space)' do
       subject  = described_class.new(key, value)
-      expected = "/param:#{key}=#{value}"
+      expected = "-param:#{key}=#{value}"
 
       expect(subject.to_s).to eq(expected)
     end
 
     it 'works with a value (with a space)' do
       subject  = described_class.new(key, value_with_space)
-      expected = "\"/param:#{key}=#{value_with_space}\""
+      expected = "\"-param:#{key}=#{value_with_space}\""
 
       expect(subject.to_s).to eq(expected)
     end

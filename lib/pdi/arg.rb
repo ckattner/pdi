@@ -13,7 +13,7 @@ module PDI
     COLON         = ':'
     DOUBLE_QUOTE  = '"'
     EMPTY         = ''
-    FORWARD_SLASH = '/'
+    HYPHEN        = '-'
     SPACE         = ' '
 
     module Key
@@ -38,7 +38,7 @@ module PDI
     def to_s
       separator = value.to_s.empty? ? EMPTY : COLON
       wrapper   = wrap?(key, value) ? DOUBLE_QUOTE : EMPTY
-      prefix    = FORWARD_SLASH
+      prefix    = HYPHEN
 
       "#{wrapper}#{prefix}#{key}#{separator}#{value}#{wrapper}"
     end

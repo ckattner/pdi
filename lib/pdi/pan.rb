@@ -9,7 +9,6 @@
 
 require_relative 'pan/error'
 require_relative 'pan/transformation'
-require_relative 'pan/version_parser'
 
 module PDI
   # This class is the main wrapper for PDI's pan script.
@@ -22,9 +21,9 @@ module PDI
     def initialize(path)
       raise ArgumentError, 'path is required' if path.to_s.empty?
 
-      @path           = path.to_s
-      @executor       = Executor.new
-      @version_parser = VersionParser.new
+      @path     = path.to_s
+      @executor = Executor.new
+      @parser   = Parser.new
 
       freeze
     end
@@ -36,7 +35,7 @@ module PDI
       ]
 
       result       = executor.run(args)
-      version_line = version_parser.parse(result.out_and_err)
+      version_line = parser.version(result.out_and_err)
 
       VersionResult.new(result, version_line)
     end
@@ -57,6 +56,6 @@ module PDI
 
     private
 
-    attr_reader :executor, :version_parser
+    attr_reader :executor, :parser
   end
 end
