@@ -13,9 +13,6 @@ require_relative 'pan/transformation'
 module PDI
   # This class is the main wrapper for PDI's pan script.
   class Pan
-    VersionResult   = Struct.new(:executor, :value)
-    TransformResult = Struct.new(:executor)
-
     attr_reader :path
 
     def initialize(path)
@@ -37,7 +34,7 @@ module PDI
       result       = executor.run(args)
       version_line = parser.version(result.out_and_err)
 
-      VersionResult.new(result, version_line)
+      Result.new(result, version_line)
     end
 
     def transform(transformation)
@@ -51,7 +48,7 @@ module PDI
 
       raise(Error, result.code) if result.code != 0
 
-      TransformResult.new(result)
+      Result.new(result, result.code)
     end
 
     private

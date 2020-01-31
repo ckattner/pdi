@@ -26,8 +26,9 @@ describe PDI::Pan do
         pan    = described_class.new(path)
         result = pan.transform(transformation)
 
-        expect(result.executor.out_and_err).to eq("output to stdout\noutput to sterr\n")
-        expect(result.executor.code).to        eq(0)
+        expect(result.execution.out_and_err).to eq("output to stdout\noutput to sterr\n")
+        expect(result.value).to                 eq(0)
+        expect(result.execution.code).to        eq(0)
       end
     end
 
