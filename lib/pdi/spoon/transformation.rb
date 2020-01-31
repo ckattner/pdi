@@ -7,20 +7,13 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+require_relative 'level'
+
 module PDI
-  class Pan
+  class Spoon
     # This class serves as the input for executing a transformation through Pan.
     class Transformation
       acts_as_hashable
-
-      module Level
-        BASIC     = 'Basic'
-        DETAILED  = 'Detailed'
-        DEBUG     = 'Debug'
-        ERROR     = 'Error'
-        NOTHING   = 'Nothing'
-        ROW_LEVEL = 'Rowlevel'
-      end
 
       attr_reader :level,
                   :name,

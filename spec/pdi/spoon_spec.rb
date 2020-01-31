@@ -9,8 +9,9 @@
 
 require 'spec_helper'
 
-describe PDI::Pan do
-  let(:mocks_dir) { %w[spec mocks pan] }
+describe PDI::Spoon do
+  let(:mocks_dir) { %w[spec mocks spoon] }
+  let(:dir)       { File.join(*mocks_dir) }
 
   let(:transformation) do
     {
@@ -19,12 +20,18 @@ describe PDI::Pan do
     }
   end
 
-  describe '#transform' do
+  describe '#run_transformation' do
     context 'when code is 0' do
       it 'returns correct stdout, stderr and code' do
-        path   = File.join(*mocks_dir, 'return_0.sh')
-        pan    = described_class.new(path)
-        result = pan.transform(transformation)
+        script = 'return_0.sh'
+
+        pan = described_class.new(
+          dir: dir,
+          kitchen_script: script,
+          pan_script: script
+        )
+
+        result = pan.run_transformation(transformation)
 
         expect(result.execution.out_and_err).to eq("output to stdout\noutput to sterr\n")
         expect(result.value).to                 eq(0)
@@ -35,18 +42,32 @@ describe PDI::Pan do
     [1, 2, 3, 7, 8, 9].each do |code|
       context "when code is #{code}" do
         specify 'returns correct stdout, stderr and code' do
-          path = File.join(*mocks_dir, "return_#{code}.sh")
-          pan = described_class.new(path)
-          expect { pan.transform(transformation) }.to raise_error(described_class::Error)
+          script = "return_#{code}.sh"
+
+          pan = described_class.new(
+            dir: dir,
+            kitchen_script: script,
+            pan_script: script
+          )
+
+          expected = described_class::PanError
+
+          expect { pan.run_transformation(transformation) }.to raise_error(expected)
         end
       end
     end
   end
 
   describe '#version' do
-    let(:path) { File.join('spec', 'mocks', 'pan', 'version.sh') }
+    let(:script) { 'version.sh' }
 
-    subject { described_class.new(path) }
+    subject do
+      described_class.new(
+        dir: dir,
+        kitchen_script: script,
+        pan_script: script
+      )
+    end
 
     it 'returns parsed version line' do
       result = subject.version

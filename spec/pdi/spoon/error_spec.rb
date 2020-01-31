@@ -9,7 +9,7 @@
 
 require 'spec_helper'
 
-describe PDI::Pan::Error do
+describe PDI::Spoon::PanError do
   describe 'initialization' do
     [1, 2, 3, 7, 8, 9].each do |code|
       specify "code #{code} should have message" do

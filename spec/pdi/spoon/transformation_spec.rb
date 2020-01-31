@@ -9,7 +9,7 @@
 
 require 'spec_helper'
 
-describe PDI::Pan::Transformation do
+describe PDI::Spoon::Transformation do
   describe '#to_args' do
     let(:params) do
       {

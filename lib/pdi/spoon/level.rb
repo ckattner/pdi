@@ -8,16 +8,14 @@
 #
 
 module PDI
-  # This class knows how to parse the output of a Pan#version call.
-  class Parser
-    NEW_LINE = "\n"
-
-    def version(string)
-      string.to_s
-            .chomp
-            .split(NEW_LINE)
-            .last
-            .to_s
+  class Spoon
+    module Level
+      BASIC     = 'Basic'
+      DETAILED  = 'Detailed'
+      DEBUG     = 'Debug'
+      ERROR     = 'Error'
+      NOTHING   = 'Nothing'
+      ROW_LEVEL = 'Rowlevel'
     end
   end
 end

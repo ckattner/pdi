@@ -8,10 +8,10 @@
 #
 
 module PDI
-  class Pan
+  class Spoon
     # This class subclasses Ruby's StandardError and provides a mapping to custom Pentaho
     # specific error codes to messages.
-    class Error < StandardError
+    class PanError < StandardError
       MESSAGES = {
         '1' => 'Errors occurred during processing',
         '2' => 'An unexpected error occurred during loading / running of the transformation',

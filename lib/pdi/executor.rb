@@ -7,12 +7,12 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+require_relative 'executor/result'
+
 module PDI
   # This class is the library's "metal" layer, the one which actually makes the system call and
   # interacts with the operating system (through Ruby's standard library.)
   class Executor
-    Result = Struct.new(:pid, :out_and_err, :code, :cmd)
-
     SPACE = ' '
 
     def run(*args)
@@ -23,7 +23,7 @@ module PDI
         code        = wait_thr.value.to_s.split(SPACE).last.to_i
         out_and_err = stdout_and_stderr.read
 
-        Result.new(pid, out_and_err, code, cmd)
+        Result.new(cmd, code, out_and_err, pid)
       end
     end
   end
