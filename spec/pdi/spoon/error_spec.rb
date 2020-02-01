@@ -13,13 +13,15 @@ describe PDI::Spoon::PanError do
   describe 'initialization' do
     [1, 2, 3, 7, 8, 9].each do |code|
       specify "code #{code} should have message" do
-        expect(described_class.new(code).message).not_to eq('Unknown')
+        execution = PDI::Executor::Result.new('', code, '', 123)
+        expect(described_class.new(execution).message).not_to eq('Unknown')
       end
     end
 
     [-1, 0, 4, 5, 6, 10, 11].each do |code|
       specify "code #{code} should not have message" do
-        expect(described_class.new(code).message).to eq('Unknown')
+        execution = PDI::Executor::Result.new('', code, '', 123)
+        expect(described_class.new(execution).message).to eq('Unknown')
       end
     end
   end

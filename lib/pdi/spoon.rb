@@ -61,7 +61,7 @@ module PDI
 
       result = executor.run(args)
 
-      raise(PanError, result.code) if result.code != 0
+      raise(PanError, result) if result.code != 0
 
       Result.new(result, result.code)
     end
@@ -75,7 +75,7 @@ module PDI
 
       result = executor.run(args)
 
-      raise(KitchenError, result.code) if result.code != 0
+      raise(KitchenError, result) if result.code != 0
 
       Result.new(result, result.code)
     end

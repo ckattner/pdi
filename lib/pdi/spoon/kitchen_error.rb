@@ -20,12 +20,12 @@ module PDI
         '9' => 'Command line usage printing'
       }.freeze
 
-      attr_reader :code
+      attr_reader :execution
 
-      def initialize(code)
-        @code = code
+      def initialize(execution)
+        @execution = execution
 
-        message = MESSAGES[code.to_s] || 'Unknown'
+        message = MESSAGES[execution.code.to_s] || 'Unknown'
 
         super(message)
       end
