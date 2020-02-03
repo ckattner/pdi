@@ -5,10 +5,10 @@ require './lib/pdi/version'
 Gem::Specification.new do |s|
   s.name        = 'pdi'
   s.version     = PDI::VERSION
-  s.summary     = 'Fill out summary'
+  s.summary     = 'Ruby wrapper for invoking Pentaho Data Integration'
 
   s.description = <<-DESCRIPTION
-    Fill out description.
+    Pentaho Data Integration allows for the creation of ETL transformation and jobs.  This library allows those ETL tasks to be executed from Ruby.
   DESCRIPTION
 
   s.authors     = ['Matthew Ruggio']
