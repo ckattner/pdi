@@ -9,13 +9,15 @@
 
 module PDI
   class Spoon
-    module Level
-      BASIC     = 'Basic'
-      DETAILED  = 'Detailed'
-      DEBUG     = 'Debug'
-      ERROR     = 'Error'
-      NOTHING   = 'Nothing'
-      ROW_LEVEL = 'Rowlevel'
+    class Options
+      module Level
+        BASIC     = 'Basic'
+        DETAILED  = 'Detailed'
+        DEBUG     = 'Debug'
+        ERROR     = 'Error'
+        NOTHING   = 'Nothing'
+        ROW_LEVEL = 'Rowlevel'
+      end
     end
   end
 end

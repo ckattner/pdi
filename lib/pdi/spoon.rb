@@ -10,7 +10,6 @@
 require_relative 'spoon/kitchen_error'
 require_relative 'spoon/options'
 require_relative 'spoon/pan_error'
-require_relative 'spoon/param'
 require_relative 'spoon/parser'
 require_relative 'spoon/result'
 
@@ -43,7 +42,7 @@ module PDI
     def version
       args = [
         kitchen_path,
-        Arg.new(Arg::Key::VERSION)
+        Options::Arg.new(Options::Arg::Key::VERSION)
       ]
 
       result       = executor.run(args)

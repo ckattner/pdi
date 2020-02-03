@@ -7,7 +7,8 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-require_relative 'level'
+require_relative 'options/level'
+require_relative 'options/param'
 
 module PDI
   class Spoon
