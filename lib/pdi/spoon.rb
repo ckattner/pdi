@@ -7,9 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-require_relative 'spoon/kitchen_error'
 require_relative 'spoon/options'
-require_relative 'spoon/pan_error'
 require_relative 'spoon/parser'
 require_relative 'spoon/result'
 

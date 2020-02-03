@@ -7,8 +7,10 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+require_relative 'kitchen_error'
 require_relative 'options/level'
 require_relative 'options/param'
+require_relative 'pan_error'
 
 module PDI
   class Spoon
@@ -20,6 +22,16 @@ module PDI
         JOB            = :job
         TRANSFORMATION = :transformation
       end
+
+      TYPES_TO_ERRORS = {
+        Type::JOB => KitchenError,
+        Type::TRANSFORMATION => PanError
+      }.freeze
+
+      TYPES_TO_KEYS = {
+        Type::JOB => Arg::Key::JOB,
+        Type::TRANSFORMATION => Arg::Key::TRANS
+      }.freeze
 
       attr_reader :level,
                   :name,
@@ -52,25 +64,13 @@ module PDI
       end
 
       def error_constant
-        if type == Type::JOB
-          KitchenError
-        elsif type == Type::TRANSFORMATION
-          PanError
-        else
-          raise ArgumentError, "cannot create error_constant from type: #{type}"
-        end
+        TYPES_TO_ERRORS.fetch(type)
       end
 
       private
 
       def key
-        if type == Type::JOB
-          Arg::Key::JOB
-        elsif type == Type::TRANSFORMATION
-          Arg::Key::TRANS
-        else
-          raise ArgumentError, "cannot create key from type: #{type}"
-        end
+        TYPES_TO_KEYS.fetch(type)
       end
 
       def base_args
