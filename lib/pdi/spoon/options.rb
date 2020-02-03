@@ -15,43 +15,64 @@ module PDI
     class Options
       acts_as_hashable
 
+      module Type
+        JOB            = :job
+        TRANSFORMATION = :transformation
+      end
+
       attr_reader :level,
                   :name,
                   :params,
-                  :repository
+                  :repository,
+                  :type
 
       def initialize(
         level: Level::BASIC,
         name:,
         params: {},
-        repository:
+        repository:,
+        type:
       )
         raise ArgumentError, 'name is required'       if name.to_s.empty?
         raise ArgumentError, 'repository is required' if repository.to_s.empty?
+        raise ArgumentError, 'type is required'       if type.to_s.empty?
 
-        @level      = Level.const_get(level.to_s.upcase.to_sym)
+        @level      = constant(Level, level)
         @name       = name.to_s
         @params     = params || {}
         @repository = repository.to_s
+        @type       = constant(Type, type)
 
         freeze
       end
 
-      def transformation_args
-        to_args(Arg::Key::TRANS)
+      def to_args
+        base_args + param_args
       end
 
-      def job_args
-        to_args(Arg::Key::JOB)
+      def error_constant
+        if type == Type::JOB
+          KitchenError
+        elsif type == Type::TRANSFORMATION
+          PanError
+        else
+          raise ArgumentError, "cannot create error_constant from type: #{type}"
+        end
       end
 
       private
 
-      def to_args(key)
-        base_args(key) + param_args
+      def key
+        if type == Type::JOB
+          Arg::Key::JOB
+        elsif type == Type::TRANSFORMATION
+          Arg::Key::TRANS
+        else
+          raise ArgumentError, "cannot create key from type: #{type}"
+        end
       end
 
-      def base_args(key)
+      def base_args
         [
           Arg.new(Arg::Key::REP, repository),
           Arg.new(key, name),
@@ -61,6 +82,10 @@ module PDI
 
       def param_args
         params.map { |key, value| Param.new(key, value) }
+      end
+
+      def constant(constant, value)
+        constant.const_get(value.to_s.upcase.to_sym)
       end
     end
   end

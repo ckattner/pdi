@@ -20,45 +20,83 @@ describe PDI::Spoon::Options do
     end
 
     let(:repository) { 'some repo' }
-
-    let(:name) { 'some_transformation' }
+    let(:name)       { 'some_transformation' }
 
     subject do
       described_class.new(
         params: params,
         repository: repository,
-        name: name
+        name: name,
+        type: type
       )
     end
 
-    it 'wraps any args with spaces inside double quotes' do
-      args             = subject.transformation_args
-      args_with_spaces = args.select { |a| a.to_s.include?(' ') }
+    context 'when type is transformation' do
+      let(:type) { 'transformation' }
 
-      raise ArgumentError, 'no examples to assert!' if args_with_spaces.empty?
+      it 'wraps any args with spaces inside double quotes' do
+        args             = subject.to_args
+        args_with_spaces = args.select { |a| a.to_s.include?(' ') }
 
-      args_with_spaces.each do |arg|
-        actual = arg.to_s
+        raise ArgumentError, 'no examples to assert!' if args_with_spaces.empty?
 
-        expect(actual).to start_with('"')
-        expect(actual).to end_with('"')
+        args_with_spaces.each do |arg|
+          actual = arg.to_s
+
+          expect(actual).to start_with('"')
+          expect(actual).to end_with('"')
+        end
+      end
+
+      it 'includes each option' do
+        expected = [
+          '"-rep:some repo"',
+          '-trans:some_transformation',
+          '-level:Basic',
+          '-param:key1=value1',
+          '-param:key2=value2',
+          '"-param:key3=value with spaces"'
+        ]
+
+        expected_set = Set[*expected]
+        actual_set   = Set[*subject.to_args.map(&:to_s)]
+
+        expect(actual_set).to eq(expected_set)
       end
     end
 
-    it 'includes each option' do
-      expected = [
-        '"-rep:some repo"',
-        '-trans:some_transformation',
-        '-level:Basic',
-        '-param:key1=value1',
-        '-param:key2=value2',
-        '"-param:key3=value with spaces"'
-      ]
+    context 'when type is job' do
+      let(:type) { 'job' }
 
-      expected_set = Set[*expected]
-      actual_set   = Set[*subject.transformation_args.map(&:to_s)]
+      it 'wraps any args with spaces inside double quotes' do
+        args             = subject.to_args
+        args_with_spaces = args.select { |a| a.to_s.include?(' ') }
 
-      expect(actual_set).to eq(expected_set)
+        raise ArgumentError, 'no examples to assert!' if args_with_spaces.empty?
+
+        args_with_spaces.each do |arg|
+          actual = arg.to_s
+
+          expect(actual).to start_with('"')
+          expect(actual).to end_with('"')
+        end
+      end
+
+      it 'includes each option' do
+        expected = [
+          '"-rep:some repo"',
+          '-job:some_transformation',
+          '-level:Basic',
+          '-param:key1=value1',
+          '-param:key2=value2',
+          '"-param:key3=value with spaces"'
+        ]
+
+        expected_set = Set[*expected]
+        actual_set   = Set[*subject.to_args.map(&:to_s)]
+
+        expect(actual_set).to eq(expected_set)
+      end
     end
   end
 end

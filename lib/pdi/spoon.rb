@@ -17,23 +17,23 @@ require_relative 'spoon/result'
 module PDI
   # This class is the main wrapper for PDI's pan and kitchen scripts.
   class Spoon
-    DEFAULT_KITCHEN_SCRIPT = 'kitchen.sh'
-    DEFAULT_PAN_SCRIPT     = 'pan.sh'
+    DEFAULT_KITCHEN = 'kitchen.sh'
+    DEFAULT_PAN     = 'pan.sh'
 
-    attr_reader :dir, :kitchen_script, :pan_script
+    attr_reader :dir, :kitchen, :pan
 
     def initialize(
       dir:,
-      kitchen_script: DEFAULT_KITCHEN_SCRIPT,
-      pan_script: DEFAULT_PAN_SCRIPT
+      kitchen: DEFAULT_KITCHEN,
+      pan: DEFAULT_PAN
     )
       assert_required(:dir, dir)
-      assert_required(:kitchen_script, kitchen_script)
-      assert_required(:pan_script, pan_script)
+      assert_required(:kitchen, kitchen)
+      assert_required(:pan, pan)
 
       @dir            = dir.to_s
-      @kitchen_script = kitchen_script.to_s
-      @pan_script     = pan_script.to_s
+      @kitchen        = kitchen.to_s
+      @pan            = pan.to_s
       @executor       = Executor.new
       @parser         = Parser.new
 
@@ -52,30 +52,16 @@ module PDI
       Result.new(result, version_line)
     end
 
-    def run_transformation(options)
+    def run(options)
       options = Options.make(options)
 
       args = [
         pan_path
-      ] + options.transformation_args
+      ] + options.to_args
 
       result = executor.run(args)
 
-      raise(PanError, result) if result.code != 0
-
-      Result.new(result, result.code)
-    end
-
-    def run_job(options)
-      options = Options.make(options)
-
-      args = [
-        pan_path
-      ] + options.job_args
-
-      result = executor.run(args)
-
-      raise(KitchenError, result) if result.code != 0
+      raise(options.error_constant, result) if result.code != 0
 
       Result.new(result, result.code)
     end
@@ -85,11 +71,11 @@ module PDI
     attr_reader :executor, :parser
 
     def kitchen_path
-      File.join(dir, kitchen_script)
+      File.join(dir, kitchen)
     end
 
     def pan_path
-      File.join(dir, pan_script)
+      File.join(dir, pan)
     end
 
     def assert_required(name, value)
