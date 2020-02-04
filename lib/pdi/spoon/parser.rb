@@ -9,7 +9,7 @@
 
 module PDI
   class Spoon
-    # This class knows how to parse the output of a Pan#version call.
+    # This class knows how to parse feedback from Pentaho and make sense of it.
     class Parser
       NEW_LINE = "\n"
 
