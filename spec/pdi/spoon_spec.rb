@@ -35,9 +35,8 @@ describe Pdi::Spoon do
 
           result = subject.run(options)
 
-          expect(result.execution.out_and_err).to eq("output to stdout\noutput to sterr\n")
-          expect(result.value).to                 eq(0)
-          expect(result.execution.code).to        eq(0)
+          expect(result.out_and_err).to eq("output to stdout\noutput to sterr\n")
+          expect(result.code).to        eq(0)
         end
       end
 
@@ -83,9 +82,8 @@ describe Pdi::Spoon do
 
           result = subject.run(options)
 
-          expect(result.execution.out_and_err).to eq("output to stdout\noutput to sterr\n")
-          expect(result.value).to                 eq(0)
-          expect(result.execution.code).to        eq(0)
+          expect(result.out_and_err).to eq("output to stdout\noutput to sterr\n")
+          expect(result.code).to        eq(0)
         end
       end
 
@@ -109,8 +107,6 @@ describe Pdi::Spoon do
     end
 
     describe '#version' do
-      let(:script) { 'version.sh' }
-
       subject do
         described_class.new(
           dir: dir,
@@ -119,14 +115,28 @@ describe Pdi::Spoon do
         )
       end
 
-      it 'returns parsed version line' do
-        result = subject.version
-        expected = [
-          '2020/01/30 13:31:04 - Pan - Kettle version 6.1.0.1-196,',
-          'build 1, build date : 2016-04-07 12.08.49'
-        ].join(' ')
+      context 'when code is 0' do
+        let(:script) { 'version.sh' }
 
-        expect(result.value).to eq(expected)
+        it 'returns parsed version line' do
+          result = subject.version
+          expected = [
+            '2020/01/30 13:31:04 - Pan - Kettle version 6.1.0.1-196,',
+            'build 1, build date : 2016-04-07 12.08.49'
+          ].join(' ')
+
+          expect(result.value).to eq(expected)
+        end
+      end
+
+      context 'when code is not 0' do
+        let(:script) { 'return_code.sh 1' }
+
+        it 'raises KitchenError' do
+          expected = described_class::KitchenError
+
+          expect { subject.version }.to raise_error(expected)
+        end
       end
     end
   end

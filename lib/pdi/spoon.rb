@@ -37,6 +37,8 @@ module Pdi
       freeze
     end
 
+    # Returns a Spoon::Result instance when PDI returns error code 0 or else raises
+    # a KitchenError since Kitchen was used to run the version command.
     def version
       args = [
         kitchen_path,
@@ -46,9 +48,13 @@ module Pdi
       result       = executor.run(args)
       version_line = parser.version(result.out_and_err)
 
+      raise(KitchenError, result) if result.code != 0
+
       Result.new(result, version_line)
     end
 
+    # Returns an Executor::Result instance when PDI returns error code 0 or else raises
+    # a PanError (transformation) or KitchenError (job).
     def run(options)
       options = Options.make(options)
 
@@ -56,11 +62,9 @@ module Pdi
         pan_path
       ] + options.to_args
 
-      result = executor.run(args)
-
-      raise(options.error_constant, result) if result.code != 0
-
-      Result.new(result, result.code)
+      executor.run(args).tap do |result|
+        raise(options.error_constant, result) if result.code != 0
+      end
     end
 
     private
