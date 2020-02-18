@@ -13,14 +13,16 @@ module Pdi
     class Result
       attr_reader :cmd,
                   :code,
-                  :out_and_err,
+                  :out,
+                  :err,
                   :pid
 
-      def initialize(cmd, code, out_and_err, pid)
-        @cmd         = cmd
-        @code        = code
-        @out_and_err = out_and_err
-        @pid         = pid
+      def initialize(cmd, code, out, err, pid)
+        @cmd  = cmd
+        @code = code
+        @out  = out
+        @err  = err
+        @pid  = pid
 
         freeze
       end

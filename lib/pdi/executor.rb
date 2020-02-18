@@ -18,13 +18,15 @@ module Pdi
     def run(*args)
       cmd = args.flatten.join(SPACE)
 
-      Open3.popen2e(cmd) do |_stdin, stdout_and_stderr, wait_thr|
-        pid         = wait_thr.pid
-        code        = wait_thr.value.to_s.split(SPACE).last.to_i
-        out_and_err = stdout_and_stderr.read
+      out, err, status = Open3.capture3(cmd)
 
-        Result.new(cmd, code, out_and_err, pid)
-      end
+      Result.new(
+        cmd,
+        status.exitstatus,
+        out,
+        err,
+        status.pid
+      )
     end
   end
 end

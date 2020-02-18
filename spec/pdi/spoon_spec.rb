@@ -35,8 +35,9 @@ describe Pdi::Spoon do
 
           result = subject.run(options)
 
-          expect(result.out_and_err).to eq("output to stdout\noutput to sterr\n")
-          expect(result.code).to        eq(0)
+          expect(result.out).to  eq("output to stdout\n")
+          expect(result.err).to  eq("output to sterr\n")
+          expect(result.code).to eq(0)
         end
       end
 
@@ -82,8 +83,9 @@ describe Pdi::Spoon do
 
           result = subject.run(options)
 
-          expect(result.out_and_err).to eq("output to stdout\noutput to sterr\n")
-          expect(result.code).to        eq(0)
+          expect(result.out).to  eq("output to stdout\n")
+          expect(result.err).to  eq("output to sterr\n")
+          expect(result.code).to eq(0)
         end
       end
 

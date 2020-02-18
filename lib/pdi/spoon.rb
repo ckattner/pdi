@@ -46,7 +46,7 @@ module Pdi
       ]
 
       result       = executor.run(args)
-      version_line = parser.version(result.out_and_err)
+      version_line = parser.version(result.out)
 
       raise(KitchenError, result) if result.code != 0
 
