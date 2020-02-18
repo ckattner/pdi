@@ -11,4 +11,4 @@ output(){
 output "output to stdout"
 error "output to sterr"
 
-exit 1
+exit $1

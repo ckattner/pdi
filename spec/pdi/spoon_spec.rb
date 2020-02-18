@@ -25,7 +25,7 @@ describe Pdi::Spoon do
 
       context 'when code is 0' do
         it 'returns correct stdout, stderr and code' do
-          script = 'return_0.sh'
+          script = 'return_code.sh 0'
 
           subject = described_class.new(
             dir: dir,
@@ -44,7 +44,7 @@ describe Pdi::Spoon do
       [1, 2, 3, 7, 8, 9].each do |code|
         context "when code is #{code}" do
           specify 'returns correct stdout, stderr and code' do
-            script = "return_#{code}.sh"
+            script = "return_code.sh #{code}"
 
             subject = described_class.new(
               dir: dir,
@@ -73,7 +73,7 @@ describe Pdi::Spoon do
 
       context 'when code is 0' do
         it 'returns correct stdout, stderr and code' do
-          script = 'return_0.sh'
+          script = 'return_code.sh 0'
 
           subject = described_class.new(
             dir: dir,
@@ -92,7 +92,7 @@ describe Pdi::Spoon do
       [1, 2, 7, 8, 9].each do |code|
         context "when code is #{code}" do
           specify 'returns correct stdout, stderr and code' do
-            script = "return_#{code}.sh"
+            script = "return_code.sh #{code}"
 
             subject = described_class.new(
               dir: dir,
