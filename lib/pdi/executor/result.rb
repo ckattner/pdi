@@ -11,14 +11,14 @@ module Pdi
   class Executor
     # General return object for an execution call result.
     class Result
-      attr_reader :cmd,
+      attr_reader :args,
                   :code,
                   :out,
                   :err,
                   :pid
 
-      def initialize(cmd, code, out, err, pid)
-        @cmd  = cmd
+      def initialize(args, code, out, err, pid)
+        @args = args
         @code = code
         @out  = out
         @err  = err

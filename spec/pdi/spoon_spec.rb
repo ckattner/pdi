@@ -10,6 +10,7 @@
 require 'spec_helper'
 
 describe Pdi::Spoon do
+  let(:script)    { 'return_code.sh' }
   let(:mocks_dir) { %w[spec mocks spoon] }
   let(:dir)       { File.join(*mocks_dir) }
 
@@ -25,9 +26,8 @@ describe Pdi::Spoon do
 
       context 'when code is 0' do
         it 'returns correct stdout, stderr and code' do
-          script = 'return_code.sh 0'
-
           subject = described_class.new(
+            args: 0,
             dir: dir,
             kitchen: script,
             pan: script
@@ -44,9 +44,8 @@ describe Pdi::Spoon do
       [1, 2, 3, 7, 8, 9].each do |code|
         context "when code is #{code}" do
           specify 'returns correct stdout, stderr and code' do
-            script = "return_code.sh #{code}"
-
             subject = described_class.new(
+              args: code,
               dir: dir,
               kitchen: script,
               pan: script
@@ -73,9 +72,8 @@ describe Pdi::Spoon do
 
       context 'when code is 0' do
         it 'returns correct stdout, stderr and code' do
-          script = 'return_code.sh 0'
-
           subject = described_class.new(
+            args: 0,
             dir: dir,
             kitchen: script,
             pan: script
@@ -92,9 +90,8 @@ describe Pdi::Spoon do
       [1, 2, 7, 8, 9].each do |code|
         context "when code is #{code}" do
           specify 'returns correct stdout, stderr and code' do
-            script = "return_code.sh #{code}"
-
             subject = described_class.new(
+              args: code,
               dir: dir,
               kitchen: script,
               pan: script
@@ -111,6 +108,7 @@ describe Pdi::Spoon do
     describe '#version' do
       subject do
         described_class.new(
+          args: args,
           dir: dir,
           kitchen: script,
           pan: script
@@ -119,9 +117,11 @@ describe Pdi::Spoon do
 
       context 'when code is 0' do
         let(:script) { 'version.sh' }
+        let(:args)   { 0 }
 
         it 'returns parsed version line' do
           result = subject.version
+
           expected = [
             '2020/01/30 13:31:04 - Pan - Kettle version 6.1.0.1-196,',
             'build 1, build date : 2016-04-07 12.08.49'
@@ -132,7 +132,8 @@ describe Pdi::Spoon do
       end
 
       context 'when code is not 0' do
-        let(:script) { 'return_code.sh 1' }
+        let(:script) { 'return_code.sh' }
+        let(:args)   { 1 }
 
         it 'raises KitchenError' do
           expected = described_class::KitchenError

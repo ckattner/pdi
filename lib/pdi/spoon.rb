@@ -17,9 +17,10 @@ module Pdi
     DEFAULT_KITCHEN = 'kitchen.sh'
     DEFAULT_PAN     = 'pan.sh'
 
-    attr_reader :dir, :kitchen, :pan
+    attr_reader :args, :dir, :kitchen, :pan
 
     def initialize(
+      args: [],
       dir:,
       kitchen: DEFAULT_KITCHEN,
       pan: DEFAULT_PAN
@@ -28,6 +29,7 @@ module Pdi
       assert_required(:kitchen, kitchen)
       assert_required(:pan, pan)
 
+      @args           = Array(args)
       @dir            = dir.to_s
       @kitchen        = kitchen.to_s
       @pan            = pan.to_s
@@ -40,12 +42,9 @@ module Pdi
     # Returns a Spoon::Result instance when PDI returns error code 0 or else raises
     # a KitchenError since Kitchen was used to run the version command.
     def version
-      args = [
-        kitchen_path,
-        Options::Arg.new(Options::Arg::Key::VERSION)
-      ]
+      final_args = [kitchen_path] + args + [Options::Arg.new(Options::Arg::Key::VERSION)]
 
-      result       = executor.run(args)
+      result       = executor.run(final_args)
       version_line = parser.version(result.out)
 
       raise(KitchenError, result) if result.code != 0
@@ -56,13 +55,10 @@ module Pdi
     # Returns an Executor::Result instance when PDI returns error code 0 or else raises
     # a PanError (transformation) or KitchenError (job).
     def run(options)
-      options = Options.make(options)
+      options    = Options.make(options)
+      final_args = [pan_path] + args + options.to_args
 
-      args = [
-        pan_path
-      ] + options.to_args
-
-      executor.run(args).tap do |result|
+      executor.run(final_args).tap do |result|
         raise(options.error_constant, result) if result.code != 0
       end
     end

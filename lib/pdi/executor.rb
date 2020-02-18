@@ -13,15 +13,13 @@ module Pdi
   # This class is the library's "metal" layer, the one which actually makes the system call and
   # interacts with the operating system (through Ruby's standard library.)
   class Executor
-    SPACE = ' '
+    def run(args)
+      args = Array(args).map(&:to_s)
 
-    def run(*args)
-      cmd = args.flatten.join(SPACE)
-
-      out, err, status = Open3.capture3(cmd)
+      out, err, status = Open3.capture3(*args)
 
       Result.new(
-        cmd,
+        args,
         status.exitstatus,
         out,
         err,
