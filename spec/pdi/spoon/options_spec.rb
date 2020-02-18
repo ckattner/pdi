@@ -9,7 +9,7 @@
 
 require 'spec_helper'
 
-describe PDI::Spoon::Options do
+describe Pdi::Spoon::Options do
   describe '#to_args' do
     let(:params) do
       {

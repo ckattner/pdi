@@ -9,7 +9,7 @@
 
 require 'spec_helper'
 
-describe PDI::Spoon do
+describe Pdi::Spoon do
   let(:mocks_dir) { %w[spec mocks spoon] }
   let(:dir)       { File.join(*mocks_dir) }
 

@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-module PDI
+module Pdi
   class Spoon
     # General return object for wrapping up a execution call result (execution) and
     # a usable result (value)

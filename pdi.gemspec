@@ -4,7 +4,7 @@ require './lib/pdi/version'
 
 Gem::Specification.new do |s|
   s.name        = 'pdi'
-  s.version     = PDI::VERSION
+  s.version     = Pdi::VERSION
   s.summary     = 'Ruby wrapper for invoking Pentaho Data Integration'
 
   s.description = <<-DESCRIPTION

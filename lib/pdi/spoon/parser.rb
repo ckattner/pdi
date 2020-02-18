@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-module PDI
+module Pdi
   class Spoon
     # This class knows how to parse feedback from Pentaho and make sense of it.
     class Parser

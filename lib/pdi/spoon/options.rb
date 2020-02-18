@@ -12,7 +12,7 @@ require_relative 'options/level'
 require_relative 'options/param'
 require_relative 'pan_error'
 
-module PDI
+module Pdi
   class Spoon
     # This class serves as the input for executing a transformation or job through Pan or Kitchen.
     class Options

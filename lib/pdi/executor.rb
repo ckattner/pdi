@@ -9,7 +9,7 @@
 
 require_relative 'executor/result'
 
-module PDI
+module Pdi
   # This class is the library's "metal" layer, the one which actually makes the system call and
   # interacts with the operating system (through Ruby's standard library.)
   class Executor

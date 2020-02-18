@@ -11,8 +11,8 @@ require_relative 'spoon/options'
 require_relative 'spoon/parser'
 require_relative 'spoon/result'
 
-module PDI
-  # This class is the main wrapper for PDI's pan and kitchen scripts.
+module Pdi
+  # This class is the main wrapper for Pdi's pan and kitchen scripts.
   class Spoon
     DEFAULT_KITCHEN = 'kitchen.sh'
     DEFAULT_PAN     = 'pan.sh'

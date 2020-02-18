@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-module PDI
+module Pdi
   class Spoon
     # This class subclasses Ruby's StandardError and provides a mapping to custom Kitchen
     # specific error codes to messages.

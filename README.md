@@ -1,4 +1,4 @@
-# PDI
+# Pdi
 
 ---
 
@@ -36,14 +36,14 @@ Pull Requests are welcome for:
 
 ## Examples
 
-All examples assume PDI has been installed to your home directory: `~/data-integration`.
+All examples assume Pdi has been installed to your home directory: `~/data-integration`.
 
 ### Creating a Spoon Instance
 
-`PDI::Spoon` is the common interface you will use when interacting with PDI.  It will use Pan and Kitchen for executing Spoon commands.
+`Pdi::Spoon` is the common interface you will use when interacting with Pdi.  It will use Pan and Kitchen for executing Spoon commands.
 
 ```ruby
-spoon = PDI::Spoon.new(dir: `~/data-integration`)
+spoon = Pdi::Spoon.new(dir: `~/data-integration`)
 ```
 
 Note: You can also override the names of the scripts using the `kitchen` and `pan` constructor keyword arguments.  The defaults are `kitchen.sh` and `pan.sh`, respectively.
@@ -52,7 +52,7 @@ Note: You can also override the names of the scripts using the `kitchen` and `pa
 
 ```ruby
 options = {
-  level: PDI::Spoon::Level::DETAILED,
+  level: Pdi::Spoon::Level::DETAILED,
   name: 'update_address',
   repository: 'transformations/demographics',
   params: {
@@ -66,12 +66,12 @@ result = spoon.run(options)
 
 `Spoon#run` will return:
 
-* `PDI::Spoon::Result` upon a successful run.
-* If a non-zero exit code was returned then a `PDI::Spoon::PanError` or `PDI::Spoon::KitchenError` will be raised.
+* `Pdi::Spoon::Result` upon a successful run.
+* If a non-zero exit code was returned then a `Pdi::Spoon::PanError` or `Pdi::Spoon::KitchenError` will be raised.
 
 You can access the raw command line results by tapping into the execution attribute of the result or error object.
 
-Note: Not all options are currently supported.  See PDI's official references for [Pan](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/000) and [Kitchen](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/010) to see all options.
+Note: Not all options are currently supported.  See Pdi's official references for [Pan](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/000) and [Kitchen](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/010) to see all options.
 
 ## Contributing
 

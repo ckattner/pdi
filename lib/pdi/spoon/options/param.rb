@@ -9,7 +9,7 @@
 
 require_relative 'arg'
 
-module PDI
+module Pdi
   class Spoon
     class Options
       # This class sub-classes Arg and knows how to form param key-value pair arguments.

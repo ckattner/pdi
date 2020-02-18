@@ -9,7 +9,7 @@
 
 require 'spec_helper'
 
-describe PDI::Spoon::Options::Param do
+describe Pdi::Spoon::Options::Param do
   let(:key)   { 'k1' }
   let(:value) { 'v1' }
   let(:value_with_space) { 'v 1' }

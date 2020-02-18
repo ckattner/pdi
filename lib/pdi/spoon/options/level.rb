@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-module PDI
+module Pdi
   class Spoon
     class Options
       module Level

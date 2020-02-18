@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-module PDI
+module Pdi
   class Executor
     # General return object for an execution call result.
     class Result
