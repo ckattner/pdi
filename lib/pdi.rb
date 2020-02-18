@@ -8,6 +8,7 @@
 #
 
 require 'acts_as_hashable'
+require 'forwardable'
 require 'open3'
 
 require_relative 'pdi/executor'

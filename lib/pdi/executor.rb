@@ -19,11 +19,13 @@ module Pdi
       out, err, status = Open3.capture3(*args)
 
       Result.new(
-        args,
-        status.exitstatus,
-        out,
-        err,
-        status.pid
+        args: args,
+        status: {
+          code: status.exitstatus,
+          out: out,
+          err: err,
+          pid: status.pid
+        }
       )
     end
   end

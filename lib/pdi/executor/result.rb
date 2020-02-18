@@ -7,22 +7,22 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+require_relative 'status'
+
 module Pdi
   class Executor
     # General return object for an execution call result.
     class Result
-      attr_reader :args,
-                  :code,
-                  :out,
-                  :err,
-                  :pid
+      extend Forwardable
+      acts_as_hashable
 
-      def initialize(args, code, out, err, pid)
-        @args = args
-        @code = code
-        @out  = out
-        @err  = err
-        @pid  = pid
+      attr_reader :args, :status
+
+      def_delegators :status, :code, :out, :err, :pid
+
+      def initialize(args:, status: {})
+        @args   = args
+        @status = Status.make(status)
 
         freeze
       end
