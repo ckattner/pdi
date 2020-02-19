@@ -1,4 +1,4 @@
-# Pdi
+# PDI
 
 ---
 
@@ -36,11 +36,11 @@ Pull Requests are welcome for:
 
 ## Examples
 
-All examples assume Pdi has been installed to your home directory: `~/data-integration`.
+All examples assume PDI has been installed to your home directory: `~/data-integration`.
 
 ### Creating a Spoon Instance
 
-`Pdi::Spoon` is the common interface you will use when interacting with Pdi.  It will use Pan and Kitchen for executing Spoon commands.
+`Pdi::Spoon` is the common interface you will use when interacting with PDI.  It will use Pan and Kitchen for executing Spoon commands.
 
 ```ruby
 spoon = Pdi::Spoon.new(dir: `~/data-integration`)
@@ -71,7 +71,7 @@ result = spoon.run(options)
 
 You can access the raw command line results by tapping into the execution attribute of the result or error object.
 
-Note: Not all options are currently supported.  See Pdi's official references for [Pan](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/000) and [Kitchen](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/010) to see all options.
+Note: Not all options are currently supported.  See PDI's official references for [Pan](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/000) and [Kitchen](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/010) to see all options.
 
 ## Contributing
 

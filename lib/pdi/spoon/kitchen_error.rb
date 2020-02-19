@@ -11,6 +11,8 @@ module Pdi
   class Spoon
     # This class subclasses Ruby's StandardError and provides a mapping to custom Kitchen
     # specific error codes to messages.
+    # You can find the list of errors in Pentaho's documentation site, for example:
+    # https://help.pentaho.com/Documentation/8.0/Products/Data_Integration/Command_Line_Tools
     class KitchenError < StandardError
       MESSAGES = {
         '1' => 'Errors occurred during processing',
