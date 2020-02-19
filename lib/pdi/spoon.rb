@@ -30,7 +30,7 @@ module Pdi
       assert_required(:pan, pan)
 
       @args           = Array(args)
-      @dir            = dir.to_s
+      @dir            = File.expand_path(dir.to_s)
       @kitchen        = kitchen.to_s
       @pan            = pan.to_s
       @executor       = Executor.new
