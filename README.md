@@ -43,7 +43,7 @@ All examples assume PDI has been installed to your home directory: `~/data-integ
 `Pdi::Spoon` is the common interface you will use when interacting with PDI.  It will use Pan and Kitchen for executing Spoon commands.
 
 ```ruby
-spoon = Pdi::Spoon.new(dir: `~/data-integration`)
+spoon = Pdi::Spoon.new(dir: '~/data-integration')
 ```
 
 Note: You can also override the names of the scripts using the `kitchen` and `pan` constructor keyword arguments.  The defaults are `kitchen.sh` and `pan.sh`, respectively.
