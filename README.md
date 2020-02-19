@@ -46,7 +46,10 @@ All examples assume PDI has been installed to your home directory: `~/data-integ
 spoon = Pdi::Spoon.new(dir: '~/data-integration')
 ```
 
-Note: You can also override the names of the scripts using the `kitchen` and `pan` constructor keyword arguments.  The defaults are `kitchen.sh` and `pan.sh`, respectively.
+Notes:
+
+* You can also override the names of the scripts using the `kitchen` and `pan` constructor keyword arguments.  The defaults are `kitchen.sh` and `pan.sh`, respectively.
+* For other command line arguments that are not supported first-class in the Options objects below you can utilize the `args` argument when instantiating a `Spoon` instance.
 
 ### Executing a Job/Transformation
 
