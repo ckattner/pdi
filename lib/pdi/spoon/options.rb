@@ -7,10 +7,8 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-require_relative 'kitchen_error'
 require_relative 'options/level'
 require_relative 'options/param'
-require_relative 'pan_error'
 
 module Pdi
   class Spoon
@@ -22,11 +20,6 @@ module Pdi
         JOB            = :job
         TRANSFORMATION = :transformation
       end
-
-      TYPES_TO_ERRORS = {
-        Type::JOB => KitchenError,
-        Type::TRANSFORMATION => PanError
-      }.freeze
 
       TYPES_TO_KEYS = {
         Type::JOB => Arg::Key::JOB,
@@ -61,10 +54,6 @@ module Pdi
 
       def to_args
         base_args + param_args
-      end
-
-      def error_constant
-        TYPES_TO_ERRORS.fetch(type)
       end
 
       private

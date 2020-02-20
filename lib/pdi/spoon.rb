@@ -7,7 +7,9 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+require_relative 'spoon/kitchen_error'
 require_relative 'spoon/options'
+require_relative 'spoon/pan_error'
 require_relative 'spoon/parser'
 require_relative 'spoon/result'
 
@@ -16,6 +18,11 @@ module Pdi
   class Spoon
     DEFAULT_KITCHEN = 'kitchen.sh'
     DEFAULT_PAN     = 'pan.sh'
+
+    TYPES_TO_ERRORS = {
+      Options::Type::JOB => KitchenError,
+      Options::Type::TRANSFORMATION => PanError
+    }.freeze
 
     attr_reader :args, :dir, :kitchen, :pan
 
@@ -55,17 +62,33 @@ module Pdi
     # Returns an Executor::Result instance when PDI returns error code 0 or else raises
     # a PanError (transformation) or KitchenError (job).
     def run(options)
-      options    = Options.make(options)
-      final_args = [pan_path] + args + options.to_args
+      options  = Options.make(options)
+      all_args = run_args(options)
 
-      executor.run(final_args).tap do |result|
-        raise(options.error_constant, result) if result.code != 0
+      executor.run(all_args).tap do |result|
+        raise(error_constant(options), result) if result.code != 0
       end
     end
 
     private
 
     attr_reader :executor, :parser
+
+    def error_constant(options)
+      TYPES_TO_ERRORS.fetch(options.type)
+    end
+
+    def run_args(options)
+      [script_path(options.type)] + args + options.to_args
+    end
+
+    def script_path(options_type)
+      if options_type == Options::Type::JOB
+        kitchen_path
+      elsif options_type == Options::Type::TRANSFORMATION
+        pan_path
+      end
+    end
 
     def kitchen_path
       File.join(dir, kitchen)

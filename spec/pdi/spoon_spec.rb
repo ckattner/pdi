@@ -24,6 +24,14 @@ describe Pdi::Spoon do
         }
       end
 
+      it 'will call pan script' do
+        subject = described_class.new(args: 0, dir: dir, pan: script)
+
+        result = subject.run(options)
+
+        expect(result.args.first).to include(script)
+      end
+
       context 'when code is 0' do
         it 'returns correct stdout, stderr and code' do
           subject = described_class.new(
@@ -68,6 +76,14 @@ describe Pdi::Spoon do
           name: 'something',
           type: :job
         }
+      end
+
+      it 'will call kitchen script' do
+        subject = described_class.new(args: 0, dir: dir, kitchen: script)
+
+        result = subject.run(options)
+
+        expect(result.args.first).to include(script)
       end
 
       context 'when code is 0' do
