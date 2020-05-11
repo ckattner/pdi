@@ -13,12 +13,11 @@ module Pdi
     class Status
       acts_as_hashable
 
-      attr_reader :code, :out, :err, :pid
+      attr_reader :code, :out, :pid
 
-      def initialize(code:, out: '', err: '', pid:)
+      def initialize(code:, out: '', pid:)
         @code = code
         @out  = out
-        @err  = err
         @pid  = pid
 
         freeze

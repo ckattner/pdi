@@ -50,6 +50,7 @@ Notes:
 
 * You can also override the names of the scripts using the `kitchen` and `pan` constructor keyword arguments.  The defaults are `kitchen.sh` and `pan.sh`, respectively.
 * For other command line arguments that are not supported first-class in the Options objects below you can utilize the `args` argument when instantiating a `Spoon` instance.
+* Another optional argument is `timeout_in_seconds`.  It is set to `nil` by default which means there is no timeout.  If set it will ensure the sub-process runs within a given window.  If it times out the sub-process will be terminated and a Timeout::Error will be raised.
 
 ### Executing a Job/Transformation
 

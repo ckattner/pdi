@@ -18,7 +18,7 @@ module Pdi
 
       attr_reader :args, :status
 
-      def_delegators :status, :code, :out, :err, :pid
+      def_delegators :status, :code, :out, :pid
 
       def initialize(args:, status: {})
         @args   = args

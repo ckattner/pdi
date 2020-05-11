@@ -1,3 +1,13 @@
+# 2.0.0 (May 11th, 2020)
+
+Breaking Changes:
+
+* Standard error and output have been combined into one stream (out).  Early feedback indicated that reading both at the same time was preferable.
+
+Enhancements:
+
+* Added optional `timeout_in_seconds` argument to Pdi::Spoon#initialize.
+
 # 1.0.1 (February 19th, 2020)
 
 Fixes:

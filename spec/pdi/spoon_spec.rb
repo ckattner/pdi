@@ -14,6 +14,16 @@ describe Pdi::Spoon do
   let(:mocks_dir) { %w[spec mocks spoon] }
   let(:dir)       { File.join(*mocks_dir) }
 
+  describe '#initialize' do
+    it 'sets Executor#timeout_in_seconds' do
+      timeout_in_seconds = 987
+      subject            = described_class.new(dir: dir, timeout_in_seconds: timeout_in_seconds)
+      executor           = subject.executor
+
+      expect(executor.timeout_in_seconds).to eq(timeout_in_seconds)
+    end
+  end
+
   describe '#run' do
     context 'transformations' do
       let(:options) do
@@ -43,8 +53,7 @@ describe Pdi::Spoon do
 
           result = subject.run(options)
 
-          expect(result.out).to  eq("output to stdout\n")
-          expect(result.err).to  eq("output to sterr\n")
+          expect(result.out).to  eq("output to stdout\noutput to sterr\n")
           expect(result.code).to eq(0)
         end
       end
@@ -97,8 +106,7 @@ describe Pdi::Spoon do
 
           result = subject.run(options)
 
-          expect(result.out).to  eq("output to stdout\n")
-          expect(result.err).to  eq("output to sterr\n")
+          expect(result.out).to  eq("output to stdout\noutput to sterr\n")
           expect(result.code).to eq(0)
         end
       end

@@ -13,20 +13,42 @@ module Pdi
   # This class is the library's "metal" layer, the one which actually makes the system call and
   # interacts with the operating system (through Ruby's standard library.)
   class Executor
+    attr_reader :timeout_in_seconds
+
+    def initialize(timeout_in_seconds: nil)
+      @timeout_in_seconds = timeout_in_seconds
+
+      freeze
+    end
+
     def run(args)
       args = Array(args).map(&:to_s)
 
-      out, err, status = Open3.capture3(*args)
+      IO.popen(args, err: %i[child out]) do |io|
+        begin
+          io_read =
+            if timeout_in_seconds
+              Timeout.timeout(timeout_in_seconds) { io.read }
+            else
+              io.read
+            end
 
-      Result.new(
-        args: args,
-        status: {
-          code: status.exitstatus,
-          out: out,
-          err: err,
-          pid: status.pid
-        }
-      )
+          io.close
+          status = $CHILD_STATUS
+
+          Result.new(
+            args: args,
+            status: {
+              code: status.exitstatus,
+              out: io_read,
+              pid: status.pid
+            }
+          )
+        rescue Timeout::Error => e
+          Process.kill(9, io.pid)
+          raise e
+        end
+      end
     end
   end
 end

@@ -24,13 +24,14 @@ module Pdi
       Options::Type::TRANSFORMATION => PanError
     }.freeze
 
-    attr_reader :args, :dir, :kitchen, :pan
+    attr_reader :args, :dir, :executor, :kitchen, :pan
 
     def initialize(
       args: [],
       dir:,
       kitchen: DEFAULT_KITCHEN,
-      pan: DEFAULT_PAN
+      pan: DEFAULT_PAN,
+      timeout_in_seconds: nil
     )
       assert_required(:dir, dir)
       assert_required(:kitchen, kitchen)
@@ -40,7 +41,7 @@ module Pdi
       @dir            = File.expand_path(dir.to_s)
       @kitchen        = kitchen.to_s
       @pan            = pan.to_s
-      @executor       = Executor.new
+      @executor       = Executor.new(timeout_in_seconds: timeout_in_seconds)
       @parser         = Parser.new
 
       freeze
@@ -72,7 +73,7 @@ module Pdi
 
     private
 
-    attr_reader :executor, :parser
+    attr_reader :parser
 
     def error_constant(options)
       TYPES_TO_ERRORS.fetch(options.type)
