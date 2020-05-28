@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
     Pentaho Data Integration allows for the creation of ETL transformation and jobs.  This library allows those ETL tasks to be executed from Ruby.
   DESCRIPTION
 
-  s.authors     = ['Matthew Ruggio']
+  s.authors     = ['Matthew Ruggio', 'Ryan Gerry']
   s.email       = ['mruggio@bluemarblepayroll.com']
   s.files       = `git ls-files`.split("\n")
   s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
