@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/bluemarblepayroll/pdi'
   s.license     = 'MIT'
 
-  s.required_ruby_version = '>= 2.3.8'
+  s.required_ruby_version = '>= 2.5.8'
 
   s.add_dependency('acts_as_hashable', '~>1')
 

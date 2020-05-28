@@ -25,29 +25,27 @@ module Pdi
       args = Array(args).map(&:to_s)
 
       IO.popen(args, err: %i[child out]) do |io|
-        begin
-          io_read =
-            if timeout_in_seconds
-              Timeout.timeout(timeout_in_seconds) { io.read }
-            else
-              io.read
-            end
+        io_read =
+          if timeout_in_seconds
+            Timeout.timeout(timeout_in_seconds) { io.read }
+          else
+            io.read
+          end
 
-          io.close
-          status = $CHILD_STATUS
+        io.close
+        status = $CHILD_STATUS
 
-          Result.new(
-            args: args,
-            status: {
-              code: status.exitstatus,
-              out: io_read,
-              pid: status.pid
-            }
-          )
-        rescue Timeout::Error => e
-          Process.kill(9, io.pid)
-          raise e
-        end
+        Result.new(
+          args: args,
+          status: {
+            code: status.exitstatus,
+            out: io_read,
+            pid: status.pid
+          }
+        )
+      rescue Timeout::Error => e
+        Process.kill(9, io.pid)
+        raise e
       end
     end
   end
