@@ -53,9 +53,7 @@ describe Pdi::Executor do
         it 'accepts a block and passes in the Pentaho output and populates result output' do
           found_output = ''
 
-          result = subject.run([script, 0, return_code]) do |output|
-            found_output += output
-          end
+          result = subject.run([script, 0, return_code]) { |output| found_output += output }
 
           expect(found_output).to eq script_output
           expect(result.out).to eq script_output

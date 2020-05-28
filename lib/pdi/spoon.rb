@@ -62,11 +62,11 @@ module Pdi
 
     # Returns an Executor::Result instance when PDI returns error code 0 or else raises
     # a PanError (transformation) or KitchenError (job).
-    def run(options)
+    def run(options, &streaming_reader)
       options  = Options.make(options)
       all_args = run_args(options)
 
-      executor.run(all_args).tap do |result|
+      executor.run(all_args, &streaming_reader).tap do |result|
         raise(error_constant(options), result) if result.code != 0
       end
     end
