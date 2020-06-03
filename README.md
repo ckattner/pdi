@@ -70,12 +70,20 @@ result = spoon.run(options)
 
 `Spoon#run` will return:
 
-* `Pdi::Spoon::Result` upon a successful run.
+* `Pdi::Executor::Result` upon a successful run.
 * If a non-zero exit code was returned then a `Pdi::Spoon::PanError` or `Pdi::Spoon::KitchenError` will be raised.
 
 You can access the raw command line results by tapping into the execution attribute of the result or error object.
 
 Note: Not all options are currently supported.  See PDI's official references for [Pan](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/000) and [Kitchen](https://help.pentaho.com/Documentation/6.1/0L0/0Y0/070/010) to see all options.
+
+### Output
+
+There are two ways to see the output of a `Pdi::Spoon` run.  First, the output is available when a run completes through `Pdi::Executor::Result#out`. It is also possible to get the output throughout the run by passing a block to run. For example:
+
+````ruby
+spoon.run(options) { |output| print output }
+````
 
 ## Contributing
 
