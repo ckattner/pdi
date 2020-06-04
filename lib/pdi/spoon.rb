@@ -60,8 +60,13 @@ module Pdi
       Result.new(result, version_line)
     end
 
-    # Returns an Executor::Result instance when PDI returns error code 0 or else raises
-    # a PanError (transformation) or KitchenError (job).
+    # Returns a <tt>Pdi::Executor::Result</tt> instance when PDI returns error
+    # code 0 or else raises a PanError (transformation) or KitchenError (job).
+    #
+    # An optional block may be passed in so that the output of a run is
+    # available in a streaming manner during the run. This block takes one
+    # parameter which is the current chunk of output and is called repeatedly
+    # throughout the run.
     def run(options, &streaming_reader)
       options  = Options.make(options)
       all_args = run_args(options)

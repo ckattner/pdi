@@ -21,7 +21,6 @@ module Pdi
       freeze
     end
 
-    # TODO: document the streaming reader
     def run(args, &streaming_reader)
       args = Array(args).map(&:to_s)
 
