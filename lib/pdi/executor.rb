@@ -57,9 +57,9 @@ module Pdi
       return io.read unless block_given?
 
       read = ''
-      io.each_char do |char_read|
-        streaming_reader.call(char_read)
-        read += char_read
+      io.each_line do |line_read|
+        streaming_reader.call(line_read)
+        read += line_read
       end
 
       read
