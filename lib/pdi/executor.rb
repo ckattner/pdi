@@ -21,34 +21,48 @@ module Pdi
       freeze
     end
 
-    def run(args)
+    def run(args, &streaming_reader)
       args = Array(args).map(&:to_s)
 
       IO.popen(args, err: %i[child out]) do |io|
-        begin
-          io_read =
-            if timeout_in_seconds
-              Timeout.timeout(timeout_in_seconds) { io.read }
-            else
-              io.read
-            end
+        io_read = read(io, &streaming_reader)
+        io.close
+        status = $CHILD_STATUS
 
-          io.close
-          status = $CHILD_STATUS
-
-          Result.new(
-            args: args,
-            status: {
-              code: status.exitstatus,
-              out: io_read,
-              pid: status.pid
-            }
-          )
-        rescue Timeout::Error => e
-          Process.kill(9, io.pid)
-          raise e
-        end
+        Result.new(
+          args: args,
+          status: {
+            code: status.exitstatus,
+            out: io_read,
+            pid: status.pid
+          }
+        )
+      rescue Timeout::Error => e
+        Process.kill(9, io.pid)
+        raise e
       end
+    end
+
+    private
+
+    def read(io, &streaming_reader)
+      if timeout_in_seconds
+        Timeout.timeout(timeout_in_seconds) { streamed_read(io, &streaming_reader) }
+      else
+        streamed_read(io, &streaming_reader)
+      end
+    end
+
+    def streamed_read(io, &streaming_reader)
+      return io.read unless block_given?
+
+      read = ''
+      io.each_line do |line_read|
+        streaming_reader.call(line_read)
+        read += line_read
+      end
+
+      read
     end
   end
 end

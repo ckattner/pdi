@@ -13,10 +13,10 @@ Metrics/BlockLength:
     - define
 
 Metrics/MethodLength:
-  Max: 25
+  Max: 17
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
 
 Metrics/AbcSize:
   Max: 16

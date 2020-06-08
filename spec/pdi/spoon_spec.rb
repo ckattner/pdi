@@ -25,6 +25,8 @@ describe Pdi::Spoon do
   end
 
   describe '#run' do
+    let(:script_output) { "output to stdout\noutput to sterr\n" }
+
     context 'transformations' do
       let(:options) do
         {
@@ -43,18 +45,21 @@ describe Pdi::Spoon do
       end
 
       context 'when code is 0' do
-        it 'returns correct stdout, stderr and code' do
-          subject = described_class.new(
-            args: 0,
-            dir: dir,
-            kitchen: script,
-            pan: script
-          )
+        let(:subject) { described_class.new(args: 0, dir: dir, kitchen: script, pan: script) }
 
+        it 'returns correct stdout, stderr and code' do
           result = subject.run(options)
 
-          expect(result.out).to  eq("output to stdout\noutput to sterr\n")
+          expect(result.out).to eq script_output
           expect(result.code).to eq(0)
+        end
+
+        it 'allows for streaming output when passed a block' do
+          found_output = ''
+
+          subject.run(options) { |output| found_output += output }
+
+          expect(found_output).to eq script_output
         end
       end
 

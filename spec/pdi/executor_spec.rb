@@ -13,6 +13,7 @@ describe Pdi::Executor do
   let(:script)      { File.join('spec', 'mocks', 'spoon', 'sleep.sh') }
   let(:one_second)  { 1 }
   let(:return_code) { 33 }
+  let(:script_output) { "std_out\nerr_out\nafter_sleep\n" }
 
   describe '#run' do
     context 'with a timeout' do
@@ -45,7 +46,18 @@ describe Pdi::Executor do
 
         result = subject.run(args)
 
-        expect(result.out).to eq("std_out\nerr_out\nafter_sleep\n")
+        expect(result.out).to eq script_output
+      end
+
+      describe 'streaming output' do
+        it 'accepts a block and passes in the Pentaho output and populates result output' do
+          found_output = ''
+
+          result = subject.run([script, 0, return_code]) { |output| found_output += output }
+
+          expect(found_output).to eq script_output
+          expect(result.out).to eq script_output
+        end
       end
     end
   end

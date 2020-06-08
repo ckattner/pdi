@@ -1,3 +1,9 @@
+# 2.1.0 (June 3rd, 2020)
+
+Enhancements:
+
+* Support for streamed command output.
+
 # 2.0.0 (May 11th, 2020)
 
 Breaking Changes:
